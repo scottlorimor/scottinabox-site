@@ -1,0 +1,11 @@
+baseURL = 'https://scottinabox.pages.dev'
+locale = 'en-us'
+title = 'Scott Lorimor'
+disableKinds = ['taxonomy', 'term']
+
+[params]
+  name = 'Scott Lorimor'
+  bio = 'I do stuff.'
+  interests = ['stuff', 'stuff', 'stuff']
+  github = 'https://github.com/scottlorimor'
+  linkedin = 'https://www.linkedin.com/in/scottlorimor/'
