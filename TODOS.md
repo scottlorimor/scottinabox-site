@@ -1,14 +1,36 @@
 # TODOS — scottinabox-site
 
-Organize by component, then priority (P0 → P4). Move finished items to `## Completed` at the bottom.
+## Content
 
-## Setup
+- [ ] Replace placeholder content (bio, interests) with real copy.
+  - **Priority:** P0
+- [ ] Add a blog post section (`content/posts/`).
+  - **Priority:** P1
+- [ ] Add an about page.
+  - **Priority:** P2
 
-- [ ] Pick a language and runtime. Update CLAUDE.md `## Testing` section.
-  - **Priority:** P0
-- [ ] Add the first test alongside the first real function.
-  - **Priority:** P0
+- [ ] Write "What got you here, won't get you there" blog post.
+  - **Priority:** P1
+
+## Design
+
+- [ ] Add a favicon.
+  - **Priority:** P2
+- [ ] Add light/dark theme toggle.
+  - **Priority:** P3
+
+## Infrastructure
+
+- [ ] Decide on Cloudflare or other provider.
+  - **Priority:** P1
+- [ ] Create a custom scottinabox domain.
+  - **Priority:** P1
+- [ ] Register a workers.dev subdomain for HTTPS.
+  - **Priority:** P1
+- [ ] Research mapping this to Substack.
+  - **Priority:** P2
 
 ## Completed
 
-(empty)
+- [x] Scaffold Hugo site with layouts and CSS.
+- [x] Deploy to Cloudflare Pages via Wrangler.

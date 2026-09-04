@@ -1,0 +1,27 @@
+{{ define "main" }}
+
+<h1>{{ .Site.Params.name }}</h1>
+
+<p>{{ .Site.Params.bio }}</p>
+
+<h2>Interests</h2>
+<p>
+  <ul class="interests">
+    {{ range .Site.Params.interests }}
+    <li>{{ . }}</li>
+    {{ end }}
+  </ul>
+</p>
+
+<h2>Links</h2>
+<p class="muted">
+  <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+  &nbsp;&middot;&nbsp;
+  <a href="{{ .Site.Params.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+</p>
+
+<footer>
+  <a href="mailto:scott@scottinabox.com">scott@scottinabox.com</a>
+</footer>
+
+{{ end }}

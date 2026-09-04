@@ -22,9 +22,17 @@ dist/
 build/
 coverage/
 .cache/
+public/
+.hugo_build.lock
 
 # Dependencies
 node_modules/
 
 # Runtime
 *.pid
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
