@@ -4,9 +4,7 @@
 
 1. [x] Add a blog post section (`content/posts/`).
    - **Priority:** P1
-2. [ ] Write "My Story" post.
-   - **Priority:** P1
-3. [ ] Write "What got you here, won't get you there" blog post.
+2. [ ] Write "What got you here, won't get you there" blog post.
    - **Priority:** P1
 
 ## Design
@@ -32,6 +30,8 @@
    - **Priority:** P1
 6. [ ] Add website tracking analytics.
    - **Priority:** P2
+7. [ ] Buy GitHub Pro and make this repo private again.
+   - **Priority:** P2
 
 ## Agent-facing
 
@@ -47,3 +47,4 @@
 - [x] Add GitHub Actions deploy workflow.
 - [x] Protect main (pre-push hook plus GitHub branch protection).
 - [x] Add test suite (`tests/test_site.py`) with CI test job on push and PR.
+- [x] Add branch guard (opencode require-branch plugin plus /start-todo command).
