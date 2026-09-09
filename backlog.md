@@ -6,6 +6,8 @@
    - **Priority:** P1
 2. [ ] Write "What got you here, won't get you there" blog post.
    - **Priority:** P1
+3. [x] Write placeholder copy.
+   - **Priority:** P2
 
 ## Design
 
