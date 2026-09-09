@@ -22,6 +22,12 @@ Start each backlog item on a feature branch (an opencode guard blocks edits on `
 /start-todo <section> <n>
 ```
 
+After a PR merges to `main`, log it and sync agent context:
+
+```
+/run-changelog
+```
+
 ## Usage
 
 Local dev server:
