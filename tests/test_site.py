@@ -18,6 +18,9 @@ Checks:
    5. Umami analytics partial is wired into baseof.html, renders
       nothing when `umamiWebsiteID` is empty, and renders the
       deferred script with the configured src plus ID when set.
+   6. Contact email in `hugo.toml` is real (no placeholder domain),
+      rendered as the obfuscated mailto on the home page, and
+      present in source plus built `llms.txt`.
 """
 
 import os
@@ -311,6 +314,39 @@ def check_analytics():
         rebuild()
 
 
+def check_email():
+    print("check: contact email matches hugo.toml plus llms.txt")
+    with open(os.path.join(ROOT, "hugo.toml"), encoding="utf-8") as handle:
+        config_text = handle.read()
+    match = re.search(
+        r"""^[ \t]*email\s*=\s*['"]([^'"]+)['"]""", config_text, re.MULTILINE
+    )
+    if not match:
+        return fail(["hugo.toml missing params email"])
+    email = match.group(1).strip()
+    if "@" not in email or "scottinabox.com" in email:
+        return fail(["hugo.toml still has placeholder email: %r" % email])
+    user, domain = email.split("@", 1)
+    home = os.path.join(PUBLIC, "index.html")
+    with open(home, encoding="utf-8") as handle:
+        html = handle.read()
+    obfuscated = "%s&#64;%s" % (user, domain)
+    if obfuscated not in html and email not in html:
+        return fail(["home page missing obfuscated mailto for %r" % email])
+    for label, path in (
+        ("source", os.path.join(ROOT, "static", "llms.txt")),
+        ("built", os.path.join(PUBLIC, "llms.txt")),
+    ):
+        with open(path, encoding="utf-8") as handle:
+            llms = handle.read()
+        if email not in llms:
+            return fail(["%s llms.txt missing %r" % (label, email)])
+        if "scottinabox.com" in llms:
+            return fail(["%s llms.txt still has placeholder domain" % label])
+    print("pass: contact email %s on home page plus llms.txt" % email)
+    return True
+
+
 def main():
     os.chdir(ROOT)
     ok = True
@@ -320,6 +356,7 @@ def main():
         ok = check_internal_links() and ok
         ok = check_no_stale_refs() and ok
         ok = check_analytics() and ok
+        ok = check_email() and ok
     if ok:
         print("all site checks passed")
         return 0

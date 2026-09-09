@@ -8,7 +8,7 @@ Personal site for Scott Lorimor. Built with Hugo, deployed to GitHub Pages.
 - [Thinking](/posts/) — Blog posts
 - [Scott's Story](/story/) — About Scott
 - Let's do some work together: [LinkedIn](https://www.linkedin.com/in/scottlorimor/)
-- Get in touch: scott@scottinabox.com
+- Get in touch: scott.lorimor28@gmail.com
 
 ## Optional
 - Full content available at [llms-full.txt](/llms-full.txt) (coming soon)

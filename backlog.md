@@ -13,7 +13,7 @@
    - **Priority:** P2
 2. [x] Center blog post content for reading comfort (override homepage right-aligned layout).
    - **Priority:** P1
-3. [ ] Use actual email address (replace scott@scottinabox.com).
+3. [x] Use actual email address (replace scott@scottinabox.com).
    - **Priority:** P2
 
 ## Infrastructure
