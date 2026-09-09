@@ -54,7 +54,7 @@ references. CI runs the same script on pushes and pull requests.
 
 Push to `main` runs `.github/workflows/hugo.yaml`, which builds with Hugo and deploys to GitHub Pages.
 
-Live URL: `https://scottlorimor.github.io/scottinabox-site/`
+Live URL: `https://scottlorimor.com/`
 
 ## Configuration
 

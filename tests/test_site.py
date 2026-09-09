@@ -6,12 +6,15 @@ Run from the repo root:
 
 Checks:
   1. Clean `hugo --minify` build exits 0.
-  2. Expected pages exist in public/ (home, story, posts index,
-     hello-world post, llms.txt, favicon.svg).
-  3. No broken internal links: every internal href/src in built HTML
-     resolves to a file in public/, accounting for the
-     /scottinabox-site/ subpath baseURL.
-  4. No leftover Cloudflare/pages.dev references in built output.
+   2. Expected pages exist in public/ (home, story, posts index,
+      hello-world post, llms.txt, favicon.svg, CNAME).
+   3. No broken internal links: every internal href/src in built HTML
+      resolves to a file in public/, accounting for the baseURL
+      path prefix from hugo.toml (root `/` on the custom domain,
+      `/scottinabox-site/` on the github.io project URL).
+   4. No leftover Cloudflare/pages.dev references in built output,
+      and no stale scottlorimor.github.io references now that the
+      site serves from the custom domain.
 """
 
 import os
@@ -19,10 +22,30 @@ import re
 import shutil
 import subprocess
 import sys
+from urllib.parse import urlsplit
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUBLIC = os.path.join(ROOT, "public")
-BASE_PREFIX = "/scottinabox-site/"
+
+
+def load_base_prefix():
+    """Read the baseURL path prefix from hugo.toml (root `/` if none)."""
+    try:
+        with open(os.path.join(ROOT, "hugo.toml"), encoding="utf-8") as handle:
+            text = handle.read()
+    except OSError:
+        return "/"
+    match = re.search(r"""^baseURL\s*=\s*['"]([^'"]+)['"]""", text, re.MULTILINE)
+    if not match:
+        return "/"
+    path = urlsplit(match.group(1)).path or "/"
+    if not path.endswith("/"):
+        path += "/"
+    return path
+
+
+BASE_PREFIX = load_base_prefix()
+PREFIX_BARE = BASE_PREFIX.lstrip("/")
 
 EXPECTED_FILES = [
     "index.html",
@@ -31,9 +54,10 @@ EXPECTED_FILES = [
     "posts/hello-world/index.html",
     "llms.txt",
     "favicon.svg",
+    "CNAME",
 ]
 
-STALE_PATTERNS = ["cloudflare", "pages.dev", "workers.dev"]
+STALE_PATTERNS = ["cloudflare", "pages.dev", "workers.dev", "scottlorimor.github.io"]
 
 LINK_RE = re.compile(
     r'''(?:href|src)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))''',
@@ -84,8 +108,8 @@ def resolve_internal(url):
         path = path[len(BASE_PREFIX):] or "index.html"
     elif path.startswith("/"):
         path = path[1:]
-    if path.startswith(BASE_PREFIX.lstrip("/")):
-        path = path[len(BASE_PREFIX.lstrip("/")):] or "index.html"
+    if PREFIX_BARE and path.startswith(PREFIX_BARE):
+        path = path[len(PREFIX_BARE):] or "index.html"
     candidates = [path]
     if not os.path.splitext(path)[1]:
         candidates = [path + ".html", path.rstrip("/") + "/index.html", path]
@@ -114,8 +138,9 @@ def check_internal_links():
             url = match.group(1) or match.group(2) or match.group(3) or ""
             if not url or url.startswith(EXTERNAL_PREFIXES):
                 continue
-            if not url.startswith(("/", BASE_PREFIX.lstrip("/"))):
-                continue
+            if not url.startswith("/"):
+                if not PREFIX_BARE or not url.startswith(PREFIX_BARE):
+                    continue
             if resolve_internal(url) is None:
                 problems.append("%s links to %s (no file in public/)" % (rel, url))
     if problems:
@@ -125,7 +150,7 @@ def check_internal_links():
 
 
 def check_no_stale_refs():
-    print("check: no leftover Cloudflare/pages.dev references")
+    print("check: no stale hosting references")
     problems = []
     for dirpath, _dirs, files in os.walk(PUBLIC):
         for name in files:
@@ -143,7 +168,7 @@ def check_no_stale_refs():
                     )
     if problems:
         return fail(problems)
-    print("pass: no leftover Cloudflare/pages.dev references")
+    print("pass: no stale hosting references")
     return True
 
 
