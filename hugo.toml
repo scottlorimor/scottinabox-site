@@ -9,3 +9,4 @@ disableKinds = ['taxonomy', 'term']
   interests = ['stuff', 'stuff', 'stuff']
   github = 'https://github.com/scottlorimor'
   linkedin = 'https://www.linkedin.com/in/scottlorimor/'
+  email = 'scott@scottinabox.com'

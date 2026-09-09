@@ -1,27 +1,16 @@
 {{ define "main" }}
+{{ $emailParts := split .Site.Params.email "@" }}
+{{ $user := index $emailParts 0 }}
+{{ $domain := index $emailParts 1 }}
 
 <h1>{{ .Site.Params.name }}</h1>
 
-<p>{{ .Site.Params.bio }}</p>
+<h2>{{ partial "icon-story.svg" }} <a href="/story/">Scott's Story</a></h2>
 
-<h2>Interests</h2>
-<p>
-  <ul class="interests">
-    {{ range .Site.Params.interests }}
-    <li>{{ . }}</li>
-    {{ end }}
-  </ul>
-</p>
+<h2>{{ partial "icon-thinking.svg" }} <a href="/posts/">Thinking</a></h2>
 
-<h2>Links</h2>
-<p class="muted">
-  <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>
-  &nbsp;&middot;&nbsp;
-  <a href="{{ .Site.Params.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-</p>
+<h2>{{ partial "icon-work.svg" }} <a href="{{ .Site.Params.linkedin }}" target="_blank" rel="noopener noreferrer">Let's do some work together</a></h2>
 
-<footer>
-  <a href="mailto:scott@scottinabox.com">scott@scottinabox.com</a>
-</footer>
+<h2>{{ partial "icon-touch.svg" }} <a href="mailto:{{ $user }}&#64;{{ $domain }}">Get in touch</a></h2>
 
 {{ end }}
