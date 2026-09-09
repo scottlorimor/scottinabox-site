@@ -32,6 +32,18 @@ hugo
 
 Output lands in `public/`.
 
+## Tests
+
+Site checks live in `tests/test_site.py` (python3 stdlib only, no install step):
+
+```bash
+python3 tests/test_site.py
+```
+
+The script builds with `hugo --minify`, then checks expected pages exist,
+internal links resolve, and built output has no leftover Cloudflare/pages.dev
+references. CI runs the same script on pushes and pull requests.
+
 ## Deploy
 
 Push to `main` runs `.github/workflows/hugo.yaml`, which builds with Hugo and deploys to GitHub Pages.

@@ -9,6 +9,7 @@
 | Hosting | [GitHub Pages](https://pages.github.com) | Deployed at `scottlorimor.github.io/scottinabox-site/` via `.github/workflows/hugo.yaml` |
 | Deploy | GitHub Actions | Push to `main` builds with Hugo 0.165.0 extended, uploads `public/` artifact |
 | Content | Markdown | Standard Hugo content files |
+| Testing | python3 stdlib (`tests/test_site.py`) | `python3 tests/test_site.py`; CI `test` job on push and PR |
 
 ## Project structure
 
