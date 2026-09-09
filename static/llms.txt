@@ -1,7 +1,7 @@
 # scottinabox-site
 
 ## About
-Personal site for Scott Lorimor. Built with Hugo, deployed to Cloudflare Pages.
+Personal site for Scott Lorimor. Built with Hugo, deployed to GitHub Pages.
 
 ## Key pages
 - [Home](/) — Scott Lorimor's homepage with links to story, blog, and contact
