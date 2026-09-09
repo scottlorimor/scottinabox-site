@@ -51,3 +51,4 @@ When the user's request matches an available skill, invoke it via the Skill tool
 - Ship / deploy / PR → `/ship` or `/land-and-deploy`
 - Save progress → `/context-save`
 - Resume context → `/context-restore`
+- Post-merge changelog + llms.txt → `/run-changelog` (project command in `.opencode/commands/run-changelog.md`, run on `main` after a merge)
