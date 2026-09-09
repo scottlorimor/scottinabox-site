@@ -10,3 +10,5 @@ disableKinds = ['taxonomy', 'term']
   github = 'https://github.com/scottlorimor'
   linkedin = 'https://www.linkedin.com/in/scottlorimor/'
   email = 'scott@scottinabox.com'
+  umamiURL = 'https://cloud.umami.is/script.js'
+  umamiWebsiteID = '884ffada-8e32-482c-a2b3-6ffded450356'

@@ -10,6 +10,7 @@
 | Deploy | GitHub Actions | Push to `main` builds with Hugo 0.165.0 extended, uploads `public/` artifact |
 | Content | Markdown | Standard Hugo content files |
 | Testing | python3 stdlib (`tests/test_site.py`) | `python3 tests/test_site.py`; CI `test` job on push and PR |
+| Analytics | [Umami](https://umami.is) Cloud | Deferred script in `layouts/partials/analytics.html`, IDs in `hugo.toml` |
 
 ## Project structure
 

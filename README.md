@@ -65,6 +65,7 @@ Live URL: `https://scottlorimor.com/`
 ## Configuration
 
 - **Hugo config**: `hugo.toml` — site title, base URL, and personal params
+- **Analytics**: Umami via `layouts/partials/analytics.html`, configured by `umamiURL` plus `umamiWebsiteID` in `hugo.toml`. Empty ID renders no script.
 
 ## Stack
 
