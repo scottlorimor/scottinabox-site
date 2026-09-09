@@ -26,7 +26,7 @@
    - **Priority:** P1
 3. [ ] Research mapping this to Substack.
    - **Priority:** P2
-4. [ ] Add test suite.
+4. [x] Add test suite.
    - **Priority:** P1
 5. [x] Add GitHub Actions for production deploys (`.github/workflows/hugo.yaml`).
    - **Priority:** P1
@@ -46,3 +46,4 @@
 - [x] Migrate hosting from Cloudflare to GitHub Pages.
 - [x] Add GitHub Actions deploy workflow.
 - [x] Protect main (pre-push hook plus GitHub branch protection).
+- [x] Add test suite (`tests/test_site.py`) with CI test job on push and PR.
