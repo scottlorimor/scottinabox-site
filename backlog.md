@@ -20,13 +20,17 @@
 
 ## Infrastructure
 
-1. [ ] Decide on Cloudflare or other provider.
+1. [x] Use GitHub Pages (migrated from Cloudflare).
    - **Priority:** P1
-2. [ ] Create a custom scottinabox domain.
+2. [ ] Swap to custom domain name.
    - **Priority:** P1
-3. [ ] Register a workers.dev subdomain for HTTPS.
+3. [ ] Research mapping this to Substack.
+   - **Priority:** P2
+4. [ ] Add test suite.
    - **Priority:** P1
-4. [ ] Research mapping this to Substack.
+5. [x] Add GitHub Actions for production deploys (`.github/workflows/hugo.yaml`).
+   - **Priority:** P1
+6. [ ] Add website tracking analytics.
    - **Priority:** P2
 
 ## Agent-facing
@@ -39,3 +43,6 @@
 - [x] Scaffold Hugo site with layouts and CSS.
 - [x] Deploy to Cloudflare Pages via Wrangler.
 - [x] Replace placeholder content with real structure (homepage revamp).
+- [x] Migrate hosting from Cloudflare to GitHub Pages.
+- [x] Add GitHub Actions deploy workflow.
+- [x] Protect main (pre-push hook plus GitHub branch protection).

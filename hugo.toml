@@ -1,4 +1,4 @@
-baseURL = 'https://scottinabox.pages.dev'
+baseURL = 'https://scottlorimor.github.io/scottinabox-site/'
 locale = 'en-us'
 title = 'Scott Lorimor'
 disableKinds = ['taxonomy', 'term']

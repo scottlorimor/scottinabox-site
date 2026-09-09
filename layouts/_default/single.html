@@ -11,9 +11,9 @@
 
 <p style="margin-top: 3em;">
 {{ if in .RelPermalink "/posts/" }}
-<a href="/posts/">Back to Thinking</a>
+<a href="{{ "posts/" | relURL }}">Back to Thinking</a>
 {{ else }}
-<a href="/">Home</a>
+<a href="{{ "" | relURL }}">Home</a>
 {{ end }}
 </p>
 {{ end }}
