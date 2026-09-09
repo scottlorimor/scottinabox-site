@@ -28,7 +28,7 @@
    - **Priority:** P1
 5. [x] Add GitHub Actions for production deploys (`.github/workflows/hugo.yaml`).
    - **Priority:** P1
-6. [ ] Add website tracking analytics.
+6. [x] Add website tracking analytics.
    - **Priority:** P2
 7. [ ] Buy GitHub Pro and make this repo private again.
    - **Priority:** P2
