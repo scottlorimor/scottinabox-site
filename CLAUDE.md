@@ -21,9 +21,10 @@ Framework: `tests/test_site.py`, plain python3 with stdlib only. No new dependen
 Run command: `python3 tests/test_site.py` (from the repo root).
 
 The script does a clean `hugo --minify` build, then checks expected
-pages exist in `public/`, internal links resolve to files in `public/`
-(accounting for the `/scottinabox-site/` subpath baseURL), and built
-output has no leftover Cloudflare/pages.dev references.
+pages exist in `public/` (including `CNAME`), internal links resolve
+to files in `public/` (accounting for the baseURL path prefix from
+`hugo.toml`), and built output has no stale hosting references
+(Cloudflare/pages.dev, old github.io project URL).
 
 CI runs the same script as the `test` job in `.github/workflows/hugo.yaml`
 on pushes to `main` and on pull requests. The `deploy` job runs on push only.
