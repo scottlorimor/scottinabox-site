@@ -47,3 +47,4 @@
 - [x] Add GitHub Actions deploy workflow.
 - [x] Protect main (pre-push hook plus GitHub branch protection).
 - [x] Add test suite (`tests/test_site.py`) with CI test job on push and PR.
+- [x] Add branch guard (opencode require-branch plugin plus /start-todo command).
