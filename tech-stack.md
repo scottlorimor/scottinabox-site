@@ -6,8 +6,8 @@
 |-------|-----------|-------|
 | Static site generator | [Hugo](https://gohugo.io) v0.x | Fast Go-based SSG, custom layouts in `layouts/`, no external theme |
 | Styling | [Tailwind CSS](https://tailwindcss.com) | Loaded via CDN, utility-first |
-| Hosting | [Cloudflare Pages](https://pages.cloudflare.com) | Deployed at `scottinabox.pages.dev` |
-| Deploy CLI | [Wrangler](https://developers.cloudflare.com/wrangler/) | `npx wrangler deploy` to push `public/` |
+| Hosting | [GitHub Pages](https://pages.github.com) | Deployed at `scottlorimor.github.io/scottinabox-site/` via `.github/workflows/hugo.yaml` |
+| Deploy | GitHub Actions | Push to `main` builds with Hugo 0.165.0 extended, uploads `public/` artifact |
 | Content | Markdown | Standard Hugo content files |
 
 ## Project structure
@@ -19,7 +19,7 @@ static/      — Static assets (images, etc.)
 assets/      — Hugo asset pipeline (unused)
 public/      — Build output (gitignored)
 hugo.toml    — Hugo configuration
-wrangler.jsonc — Cloudflare Pages configuration
+.github/workflows/hugo.yaml — GitHub Pages deploy workflow
 ```
 
 ## Local dev
