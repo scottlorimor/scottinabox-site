@@ -20,7 +20,7 @@
 
 1. [x] Use GitHub Pages (migrated from Cloudflare).
    - **Priority:** P1
-2. [ ] Swap to custom domain name.
+2. [x] Swap to custom domain name (scottlorimor.com via `static/CNAME` plus `baseURL`).
    - **Priority:** P1
 3. [ ] Research mapping this to Substack.
    - **Priority:** P2
