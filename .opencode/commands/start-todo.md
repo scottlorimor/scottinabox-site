@@ -1,5 +1,7 @@
 ---
 description: Start a backlog.md item on a new feature branch
+agent: start-todo
+subtask: true
 ---
 Start backlog item section $1 number $2$3 (if $3 is present it replaces the derived slug).
 

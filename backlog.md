@@ -4,9 +4,7 @@
 
 1. [x] Add a blog post section (`content/posts/`).
    - **Priority:** P1
-2. [ ] Write "My Story" post.
-   - **Priority:** P1
-3. [ ] Write "What got you here, won't get you there" blog post.
+2. [ ] Write "What got you here, won't get you there" blog post.
    - **Priority:** P1
 
 ## Design
@@ -31,6 +29,8 @@
 5. [x] Add GitHub Actions for production deploys (`.github/workflows/hugo.yaml`).
    - **Priority:** P1
 6. [ ] Add website tracking analytics.
+   - **Priority:** P2
+7. [ ] Buy GitHub Pro and make this repo private again.
    - **Priority:** P2
 
 ## Agent-facing
