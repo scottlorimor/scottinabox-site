@@ -40,6 +40,11 @@
 1. [x] Add `llms.txt` for LLM/agent consumption (site info, key pages, optional `llms-full.txt` with full content).
    - **Priority:** P2
 
+## Docs
+
+1. [x] Create mermaid diagram of architecture (issue #10).
+   - **Priority:** P2
+
 ## Completed
 
 - [x] Scaffold Hugo site with layouts and CSS.
