@@ -16,6 +16,12 @@ Enable the git hooks (blocks direct pushes to `main`):
 git config core.hooksPath .githooks
 ```
 
+Start each backlog item on a feature branch (an opencode guard blocks edits on `main`):
+
+```
+/start-todo <section> <n>
+```
+
 ## Usage
 
 Local dev server:
