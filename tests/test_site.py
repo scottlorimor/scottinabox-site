@@ -15,6 +15,9 @@ Checks:
    4. No leftover Cloudflare/pages.dev references in built output,
       and no stale scottlorimor.github.io references now that the
       site serves from the custom domain.
+   5. Umami analytics partial is wired into baseof.html, renders
+      nothing when `umamiWebsiteID` is empty, and renders the
+      deferred script with the configured src plus ID when set.
 """
 
 import os
@@ -58,6 +61,10 @@ EXPECTED_FILES = [
 ]
 
 STALE_PATTERNS = ["cloudflare", "pages.dev", "workers.dev", "scottlorimor.github.io"]
+
+UMAMI_DEFAULT_SRC = "https://cloud.umami.is/script.js"
+UMAMI_TEST_SRC = "https://umami.example.test/script.js"
+UMAMI_TEST_ID = "test-website-id-1234"
 
 LINK_RE = re.compile(
     r'''(?:href|src)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))''',
@@ -172,6 +179,138 @@ def check_no_stale_refs():
     return True
 
 
+def load_umami_config(text=None):
+    """Return (url, website_id) from hugo.toml text (default: read the file)."""
+    if text is None:
+        with open(os.path.join(ROOT, "hugo.toml"), encoding="utf-8") as handle:
+            text = handle.read()
+    url = re.search(
+        r"""^[ \t]*umamiURL\s*=\s*['"]([^'"]*)['"]""", text, re.MULTILINE
+    )
+    site_id = re.search(
+        r"""^[ \t]*umamiWebsiteID\s*=\s*['"]([^'"]*)['"]""", text, re.MULTILINE
+    )
+    return (
+        url.group(1).strip() if url else "",
+        site_id.group(1).strip() if site_id else "",
+    )
+
+
+def built_html_files():
+    pages = []
+    for dirpath, _dirs, files in os.walk(PUBLIC):
+        for name in files:
+            if name.endswith(".html"):
+                pages.append(os.path.join(dirpath, name))
+    return pages
+
+
+def rebuild():
+    result = subprocess.run(
+        ["hugo", "--minify"], cwd=ROOT, capture_output=True, text=True
+    )
+    return result
+
+
+def check_analytics():
+    print("check: umami analytics wiring plus both render branches")
+    problems = []
+    partial = os.path.join(ROOT, "layouts", "partials", "analytics.html")
+    try:
+        with open(partial, encoding="utf-8") as handle:
+            partial_text = handle.read()
+    except OSError:
+        return fail(["missing layouts/partials/analytics.html"])
+    for needle in ("data-website-id", "defer", "umamiWebsiteID", "umamiURL"):
+        if needle not in partial_text:
+            problems.append("analytics.html missing %r" % needle)
+    baseof = os.path.join(ROOT, "layouts", "_default", "baseof.html")
+    try:
+        with open(baseof, encoding="utf-8") as handle:
+            baseof_text = handle.read()
+    except OSError:
+        return fail(["missing layouts/_default/baseof.html"])
+    if "analytics.html" not in baseof_text:
+        problems.append("baseof.html does not include analytics.html partial")
+    try:
+        with open(os.path.join(ROOT, "hugo.toml"), encoding="utf-8") as handle:
+            config_text = handle.read()
+    except OSError:
+        return fail(["missing hugo.toml"])
+    if "umamiURL" not in config_text or "umamiWebsiteID" not in config_text:
+        problems.append("hugo.toml missing umamiURL/umamiWebsiteID params")
+    if problems:
+        return fail(problems)
+
+    url, site_id = load_umami_config(config_text)
+    pages = built_html_files()
+    if not pages:
+        return fail(["no HTML pages found in public/"])
+    if not site_id:
+        for page in pages:
+            with open(page, encoding="utf-8") as handle:
+                html = handle.read()
+            if "data-website-id" in html:
+                problems.append(
+                    "%s renders analytics script with empty umamiWebsiteID"
+                    % os.path.relpath(page, PUBLIC)
+                )
+        if problems:
+            return fail(problems)
+        print("pass: analytics renders nothing when umamiWebsiteID is empty")
+    else:
+        expected_src = url or UMAMI_DEFAULT_SRC
+        home = os.path.join(PUBLIC, "index.html")
+        with open(home, encoding="utf-8") as handle:
+            html = handle.read()
+        if "data-website-id" not in html or site_id not in html:
+            problems.append("home page missing configured data-website-id")
+        if expected_src not in html:
+            problems.append("home page missing configured umami src")
+        if problems:
+            return fail(problems)
+        print("pass: analytics renders configured script on home page")
+
+    config_path = os.path.join(ROOT, "hugo.toml")
+    with open(config_path, encoding="utf-8") as handle:
+        original = handle.read()
+    patched = re.sub(
+        r"""^[ \t]*umamiURL\s*=\s*['"][^'"]*['"]""",
+        "umamiURL = '%s'" % UMAMI_TEST_SRC,
+        original,
+        flags=re.MULTILINE,
+    )
+    patched = re.sub(
+        r"""^[ \t]*umamiWebsiteID\s*=\s*['"][^'"]*['"]""",
+        "umamiWebsiteID = '%s'" % UMAMI_TEST_ID,
+        patched,
+        flags=re.MULTILINE,
+    )
+    try:
+        with open(config_path, "w", encoding="utf-8") as handle:
+            handle.write(patched)
+        result = rebuild()
+        if result.returncode != 0:
+            return fail(
+                ["hugo rebuild with test umami config exited %d" % result.returncode]
+            )
+        home = os.path.join(PUBLIC, "index.html")
+        with open(home, encoding="utf-8") as handle:
+            html = handle.read()
+        if UMAMI_TEST_SRC not in html or UMAMI_TEST_ID not in html:
+            problems.append("configured branch missing test src plus ID")
+        if "defer" not in html.lower() or "data-website-id" not in html:
+            problems.append("configured branch missing defer plus data-website-id")
+        if problems:
+            return fail(problems)
+        print("pass: analytics renders script when umamiWebsiteID is set")
+        return True
+    finally:
+        with open(config_path, "w", encoding="utf-8") as handle:
+            handle.write(original)
+        rebuild()
+
+
 def main():
     os.chdir(ROOT)
     ok = True
@@ -180,6 +319,7 @@ def main():
         ok = check_expected_pages() and ok
         ok = check_internal_links() and ok
         ok = check_no_stale_refs() and ok
+        ok = check_analytics() and ok
     if ok:
         print("all site checks passed")
         return 0

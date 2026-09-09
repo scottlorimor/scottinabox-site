@@ -1,0 +1,4 @@
+{{ with .Site.Params.umamiWebsiteID }}
+{{ $umamiURL := $.Site.Params.umamiURL | default "https://cloud.umami.is/script.js" }}
+<script defer src="{{ $umamiURL }}" data-website-id="{{ . }}"></script>
+{{ end }}
